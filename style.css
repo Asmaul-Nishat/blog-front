@@ -2,5 +2,12 @@
     background-color: rgb(103, 180, 196);
 }
 h1{
-    color:rgb(7, 90, 43)
+    color:rgb(7, 90, 43);
+    text-align: center;
+}
+p{
+    color: rgb(0, 0, 0);
+    font-size: medium;
+    text-align: center;
+    font-style: oblique;
 }
