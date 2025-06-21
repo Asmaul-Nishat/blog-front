@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login</title>
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h2 id="login">Login</h2>
+
+    <form id="login-form">
+      <input list="usernames" placeholder="Username" required />
+      <datalist id="usernames">
+        <option value="admin">
+        <option value="blogger">
+        <option value="blog reader">
+      </datalist>
+      
+      <div class="password-wrapper">
+        <input type="password" id="password" placeholder="Password" required />
+        <span class="toggle-password" onclick="togglePassword()">👁</span>
+      </div>
+      
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>
