@@ -5,25 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Blog Home</title>
   <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <header>
-    <h1>My Blog</h1>
+  <header class="glass-header">
+    <div class="logo">📝 My Blog</div>
     <nav>
       <a href="index.html">Home</a>
+      <a href="about.html">About</a>
       <a href="new-post.html">New Post</a>
       <a href="login.html">Login</a>
+      <a href="sign-up.html">Sign Up</a>
+      <a href="contact.html">Contact</a>
+      <a href="profile.html">Profile</a>
+      <a href="logout.html">Logout</a>
+      
+    
     </nav>
   </header>
 
   <main>
-    <section id="posts-container">
+    <section class="hero">
+      <h2>Welcome to the Blog</h2>
+      <p>Read the latest stories, ideas, and tutorials from our creative community.</p>
+    </section>
+    <!-- Search Section -->
+<section class="search-section">
+  <input type="text" id="search-input" placeholder="Search blog posts..." />
+  <button onclick="searchPosts()">🔍</button>
+</section>
+
+
+    <section id="posts-container" class="grid">
       <!-- Blog posts will be loaded here dynamically -->
     </section>
   </main>
 
-  <footer>
-    <p>&copy; 2025 Blog System</p>
+  <footer class="glass-footer">
+    <p>&copy; 2025 My Blog Platform | Powered by Asmaul Hosna</p>
   </footer>
 
   <script src="script.js"></script>
