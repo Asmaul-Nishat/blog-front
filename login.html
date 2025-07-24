@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Register - MyBlog</title>
+  <title>Login Page</title>
   <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -229,12 +229,12 @@
   <div class="container">
     <!-- Left Image -->
     <div class="image-side">
-      <img src="https://images.pexels.com/photos/399161/pexels-photo-399161.jpeg" alt="Register Banner" />
+      <img src="https://images.pexels.com/photos/399161/pexels-photo-399161.jpeg" alt="Login Banner" />
     </div>
 
     <!-- Right Form -->
     <div class="form-side">
-      <div class="close-btn" onclick="window.location.href='index.html'" title="Go back to home">&times;</div>
+      <div class="close-btn" onclick="window.location.href='admin/dashboard.html'" title="Go back to home">&times;</div>
 
       <div class="card">
         <h1>Login</h1>
@@ -254,14 +254,14 @@
         </form>
 
         <div class="footer">
-          Don't have an account? <a href="register.html">Register</a>
+          Don't have any account? <a href="register.html" >  Register </a>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    const form = document.getElementById("registerForm");
+    const form = document.getElementById("LoginForm");
     const password = document.getElementById("password");
     const confirmPassword = document.getElementById("confirmPassword");
     const passError = document.getElementById("passError");
