@@ -8,25 +8,25 @@
   <style>
     :root {
       --font-family: 'Merriweather', serif;
-      --black: #000;
-      --dark-gray: #333;
-      --light-gray: #666;
+      --black: #000000;
+      --white: #f0f0f0;
+      --gray: #dddddd;
+      --input-border: #999999;
+      --button-hover-bg: #cb9191;
+      --label-text-default: #666666;
+      --error-text: red;
+
       --radius: 12px;
       --transition: 0.3s ease;
       --max-width: 1200px;
     }
 
-    /* Color palette */
-    .first-color { background: #f9ecec; }
-    .second-color { background: #f0d9da; }
-    .third-color { background: #c8d9eb; }
-    .fourth-color { background: #ecf2f9; }
-
+    /* General body styles */
     body {
       margin: 0;
       font-family: var(--font-family);
-      color: var(--dark-gray);
-      background: #fff;
+      color: var(--black);
+      background-color: var(--white);
       line-height: 1.6;
       min-height: 100vh;
       display: flex;
@@ -37,7 +37,7 @@
     .container {
       max-width: var(--max-width);
       width: 90%;
-      margin: 0 auto;
+      margin: 2rem auto;
     }
 
     /* Navbar */
@@ -45,13 +45,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 0;
+      padding: 1rem 2rem;
       width: 100%;
-      background: var(--fourth-color);
+      max-width: var(--max-width);
+      background: var(--white);
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 100;
     }
 
     nav .logo {
@@ -59,89 +60,36 @@
       font-weight: 700;
       color: var(--black);
       user-select: none;
-    }
-
-    nav .search-bar {
-      flex: 1;
-      margin: 0 1rem;
-      position: relative;
-      max-width: 450px;
-      display: flex;
-      align-items: center;
-    }
-
-    nav .search-bar input {
-      width: 100%;
-      padding: 0.5rem 1rem 0.5rem 1rem;
-      border-radius: 25px;
-      border: 1px solid var(--light-gray);
-      font-size: 1rem;
-      outline: none;
-      transition: border-color var(--transition);
-    }
-
-    nav .search-bar input:focus {
-      border-color: #888;
-    }
-
-  nav .search-bar button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  width: 34px;
-  height: 34px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--light-gray);
-  transition: color var(--transition);
-}
-nav .search-bar button svg {
-  width: 20px;
-  height: 20px;
-  stroke: currentColor;
-}
-
-
-    nav .search-bar button:hover {
-      color: var(--dark-gray);
-    }
-
-    nav .nav-buttons {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
-
-    nav .nav-buttons button,
-    nav .nav-buttons a {
-      padding: 0.5rem 1rem;
-      border-radius: 25px;
-      border: none;
-      font-size: 1rem;
       cursor: pointer;
-      transition: background-color var(--transition);
+    }
+
+    nav .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      
+    
+    }
+
+    nav .nav-links a {
       text-decoration: none;
       color: var(--black);
-      background: var(--third-color);
       font-weight: 600;
-      user-select: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: var(--radius);
+      background: var(--gray);
+      transition: background-color var(--transition), color var(--transition);
     }
 
-    nav .nav-buttons button:hover,
-    nav .nav-buttons a:hover {
-      background: var(--second-color);
+    nav .nav-links a:hover {
+      background-color: var(--button-hover-bg);
+      color: var(--black);
     }
 
     /* Hero Section */
     .hero {
       width: 100%;
-      margin: 2rem 0;
+      margin-bottom: 2rem;
       border-radius: var(--radius);
       overflow: hidden;
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
@@ -165,7 +113,7 @@ nav .search-bar button svg {
       bottom: 2rem;
       left: 2rem;
       color: var(--black);
-      background: rgba(244, 234, 234, 0.85);
+      background: rgba(240, 240, 240, 0.85);
       padding: 1rem 1.5rem;
       border-radius: var(--radius);
       max-width: 600px;
@@ -176,17 +124,37 @@ nav .search-bar button svg {
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    /* Main content layout */
-    main {
+    /* Categories */
+    .categories {
+      margin-bottom: 2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gray);
+      user-select: none;
       display: flex;
-      gap: 3rem; /* increased gap */
-      width: 100%;
-      margin-bottom: 4rem;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+    }
+
+    .categories button {
+      background: var(--white);
+      border: 1px solid var(--gray);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--black);
+      transition: background-color var(--transition), border-color var(--transition);
+    }
+
+    .categories button:hover,
+    .categories button.active {
+      background: var(--button-hover-bg);
+      border-color: var(--button-hover-bg);
+      color: var(--black);
     }
 
     /* Blog Feed */
     .blog-feed {
-      flex: 3;
       display: grid;
       grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
       gap: 2rem;
@@ -194,7 +162,7 @@ nav .search-bar button svg {
 
     /* Blog Card */
     .blog-card {
-      background: var(--second-color);
+      background: var(--gray);
       border-radius: var(--radius);
       box-shadow: 0 4px 12px rgba(0,0,0,0.07);
       overflow: hidden;
@@ -241,14 +209,14 @@ nav .search-bar button svg {
 
     .blog-excerpt {
       font-size: 0.9rem;
-      color: var(--dark-gray);
+      color: var(--label-text-default);
       flex-grow: 1;
     }
 
     .blog-meta {
       margin-top: 1rem;
       font-size: 0.8rem;
-      color: var(--light-gray);
+      color: var(--label-text-default);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -256,175 +224,16 @@ nav .search-bar button svg {
       gap: 0.3rem;
     }
 
-    .blog-meta .author {
-      font-style: italic;
-      cursor: pointer;
-      position: relative;
-      color: var(--dark-gray);
-      user-select: none;
-    }
-
-    .blog-meta .author:hover {
-      color: var(--second-color);
-    }
-
-    .blog-meta .upload-time {
-      font-style: italic;
-      margin-left: 0.5rem;
-      white-space: nowrap;
-    }
-
-    .blog-meta .likes,
-    .blog-meta .comments,
-    .blog-meta .share {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      cursor: pointer;
-      user-select: none;
-      font-weight: 600;
-    }
-
-    .blog-meta .likes span,
-    .blog-meta .comments span,
-    .blog-meta .share span {
-      font-weight: 700;
-    }
-
-    /* Categories */
-    .categories {
-      margin-bottom: 2rem;
-      padding: 0 0 0.5rem 0;
-      border-bottom: 2px solid var(--third-color);
-      user-select: none;
-    }
-
-    .categories button {
-      background: var(--fourth-color);
-      border: none;
-      padding: 0.5rem 1rem;
-      margin-right: 0.7rem;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: 600;
-      color: var(--black);
-      transition: background-color var(--transition);
-    }
-
-    .categories button:hover,
-    .categories button.active {
-      background: var(--second-color);
-    }
-
-    /* Sidebar */
-    aside {
-      flex: 1;
-      background: var(--fourth-color);
-      border-radius: var(--radius);
-      padding: 1rem 1.5rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
-      height: fit-content;
-      user-select: none;
-      position: relative;
-    }
-
-    aside h3 {
-      margin-bottom: 1rem;
-      font-weight: 700;
-      font-size: 1.25rem;
-      border-bottom: 2px solid var(--third-color);
-      padding-bottom: 0.5rem;
-    }
-
-    aside .author-list,
-    aside .newsletter {
-      margin-bottom: 2rem;
-    }
-
-    aside .author-list ul {
-      list-style: none;
-      padding-left: 0;
-      margin: 0;
-    }
-
-    aside .author-list ul li {
-      padding: 0.4rem 0;
-      font-weight: 600;
-      cursor: pointer;
-      color: var(--black);
-      transition: color var(--transition);
-      position: relative;
-    }
-
-    aside .author-list ul li:hover {
-      color: var(--second-color);
-    }
-
-    /* Popup for author options */
-    .author-popup {
-      position: absolute;
-      top: 50%;
-      left: 100%; /* show right side */
-      transform: translateY(-50%);
-      background: var(--second-color);
-      border-radius: var(--radius);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-      padding: 0.5rem 0;
-      min-width: 140px;
-      display: none;
-      flex-direction: column;
-      z-index: 100;
-      white-space: nowrap;
-    }
-
-    .author-popup a {
-      padding: 0.5rem 1rem;
-      text-decoration: none;
-      color: var(--black);
-      font-weight: 600;
-      user-select: none;
-    }
-
-    .author-popup a:hover {
-      background: var(--first-color);
-      color: var(--black);
-    }
-
-    aside .newsletter input[type="email"] {
-      width: 100%;
-      padding: 0.5rem 0.75rem;
-      border-radius: var(--radius);
-      border: 1px solid var(--light-gray);
-      outline: none;
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    aside .newsletter button {
-      width: 100%;
-      padding: 0.6rem 0;
-      background: var(--second-color);
-      border: none;
-      border-radius: var(--radius);
-      font-weight: 700;
-      cursor: pointer;
-      transition: background-color var(--transition);
-    }
-
-    aside .newsletter button:hover {
-      background: var(--first-color);
-    }
-
     /* Footer */
     footer {
       width: 100%;
-      background: var(--fourth-color);
+      background: var(--white);
       padding: 2rem 0;
       text-align: center;
       font-size: 0.9rem;
-      color: var(--dark-gray);
+      color: var(--label-text-default);
       user-select: none;
-      border-top: 1px solid var(--third-color);
+      border-top: 1px solid var(--gray);
     }
 
     footer a {
@@ -434,19 +243,18 @@ nav .search-bar button svg {
     }
 
     footer a:hover {
-      color: var(--second-color);
+      color: var(--button-hover-bg);
       text-decoration: underline;
     }
 
     /* Responsive */
     @media (max-width: 900px) {
-      main {
-        flex-direction: column;
+      .blog-feed {
+        grid-template-columns: 1fr;
       }
 
-      aside {
-        width: 100%;
-        margin-top: 2rem;
+      .categories {
+        justify-content: center;
       }
     }
   </style>
@@ -454,17 +262,14 @@ nav .search-bar button svg {
 <body>
 
   <!-- Navbar -->
-  <nav>
-    <div class="logo" tabindex="0">MyBlog</div>
-    <form class="search-bar" id="searchForm" role="search" aria-label="Search blogs">
-      <input type="search" id="searchInput" placeholder="Search blogs..." aria-label="Search blogs" autocomplete="off" />
-      <button type="submit" aria-label="Search">
-        
-</button>
-    </form>
-    <div class="nav-buttons">
-      <a href="create.html" role="button">Write Blog</a>
-      <a href="login.html" role="button">Login</a>
+   <nav>
+    <a href="index.html" class="logo">Blogg</a>
+    <div class="nav-links">
+      <a href="create.html">Write Blog</a>
+      <a href="login.html">Login</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      
     </div>
   </nav>
 
@@ -472,7 +277,7 @@ nav .search-bar button svg {
 
     <!-- Hero Section -->
     <section class="hero" tabindex="0" role="banner" aria-label="Featured blog post">
-      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1350&q=80" alt="Featured Blog" />
+      <img src="image/jess-bailey-cU7wLFRyWWw-unsplash.jpg" alt="Featured Blog" />
       <div class="hero-text" tabindex="0" role="link" aria-label="Explore the Wonders of the Ocean blog post">Explore the Wonders</div>
     </section>
 
@@ -486,46 +291,21 @@ nav .search-bar button svg {
       <button type="button" data-category="Education">Education</button>
     </section>
 
-    <main>
-      <!-- Blog Feed -->
-      <section class="blog-feed" aria-label="Latest blog posts" id="blogFeed">
-
-        <!-- Blog cards added dynamically in JS -->
-
-      </section>
-
-      <!-- Sidebar -->
-      <aside>
-        <div class="author-list">
-          <h3>Top Bloggers</h3>
-          <ul id="topBloggers">
-            <!-- Author items dynamically inserted -->
-          </ul>
-        </div>
-
-        <div class="newsletter">
-          <h3>Subscribe</h3>
-          <form onsubmit="subscribeNewsletter(event)">
-            <input type="email" id="email" name="email" placeholder="Your email" required aria-label="Email for newsletter subscription"/>
-            <button type="submit">Subscribe</button>
-          </form>
-          <p id="newsletter-msg" aria-live="polite" style="margin-top: 0.5rem;"></p>
-        </div>
-      </aside>
-    </main>
+    <!-- Blog Feed -->
+    <section class="blog-feed" aria-label="Latest blog posts" id="blogFeed">
+      <!-- Blog cards added dynamically in JS -->
+    </section>
   </div>
 
   <footer>
     <p>
       &copy; 2025 MyBlog. All rights reserved. &nbsp;|&nbsp;
-      <a href="#">About</a> &nbsp;|&nbsp;
-      <a href="#">Contact</a> &nbsp;|&nbsp;
       <a href="#">Privacy Policy</a>
     </p>
   </footer>
 
   <script>
-    // Sample blog data - categories, authors etc.
+    // Sample blog data
     const blogs = [
       {
         id: 1,
@@ -536,7 +316,7 @@ nav .search-bar button svg {
         uploadTime: "2025-06-20 10:30",
         likes: 245,
         comments: 20,
-        img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
+        img: "image/karsten-winegeart-Quh5YoaAzfI-unsplash.jpg",
       },
       {
         id: 2,
@@ -547,7 +327,7 @@ nav .search-bar button svg {
         uploadTime: "2025-06-21 17:15",
         likes: 179,
         comments: 15,
-        img: "https://images.unsplash.com/photo-1516684669134-24f65c8f72af?auto=format&fit=crop&w=600&q=80",
+        img: "image/freestocks-OfaDD5o8hpk-unsplash.jpg",
       },
       {
         id: 3,
@@ -558,7 +338,7 @@ nav .search-bar button svg {
         uploadTime: "2025-06-22 08:45",
         likes: 310,
         comments: 32,
-        img: "https://images.unsplash.com/photo-1526378721211-0d003f3167e6?auto=format&fit=crop&w=600&q=80",
+        img: "image/sincerely-media-zw8t5aMmJQQ-unsplash.jpg",
       },
       {
         id: 4,
@@ -569,7 +349,7 @@ nav .search-bar button svg {
         uploadTime: "2025-06-23 13:00",
         likes: 142,
         comments: 12,
-        img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80",
+        img: "image/andrijana-bozic-IsJ_hbsQiE8-unsplash.jpg",
       },
       {
         id: 5,
@@ -580,13 +360,12 @@ nav .search-bar button svg {
         uploadTime: "2025-06-24 09:30",
         likes: 199,
         comments: 18,
-        img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=600&q=80",
+        img: "image/josue-valencia-pOwKTIgjKjU-unsplash.jpg",
       },
     ];
 
-    const authors = [...new Set(blogs.map(b => b.author))];
+    const categoryButtons = document.querySelectorAll('.categories button');
 
-    // Render blogs based on filter and search term
     function renderBlogs(filter = 'all', searchTerm = '') {
       const container = document.getElementById('blogFeed');
       container.innerHTML = '';
@@ -620,11 +399,6 @@ nav .search-bar button svg {
               <span class="author" tabindex="0" aria-haspopup="true" aria-expanded="false" aria-label="Author: ${blog.author}">${blog.author}</span>
               <span class="upload-time">${new Date(blog.uploadTime).toLocaleString()}</span>
             </div>
-            <div class="blog-meta" style="margin-top: 6px;">
-              <div class="likes" aria-label="Likes">${'❤️'} <span>${blog.likes}</span></div>
-              <div class="comments" aria-label="Comments">${'💬'} <span>${blog.comments}</span></div>
-              <div class="share" aria-label="Share">🔗 <span>Share</span></div>
-            </div>
           </div>
         `;
 
@@ -632,8 +406,6 @@ nav .search-bar button svg {
       });
     }
 
-    // Categories buttons filtering
-    const categoryButtons = document.querySelectorAll('.categories button');
     categoryButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         categoryButtons.forEach(b => b.classList.remove('active'));
@@ -643,68 +415,9 @@ nav .search-bar button svg {
       });
     });
 
-    // Render authors list with clickable popup
-    function renderAuthors() {
-      const ul = document.getElementById('topBloggers');
-      ul.innerHTML = '';
-
-      authors.forEach(author => {
-        const li = document.createElement('li');
-        li.textContent = author;
-
-        // Create popup div
-        const popup = document.createElement('div');
-        popup.className = 'author-popup';
-        popup.innerHTML = `
-          <a href="#" tabindex="0" aria-label="View ${author} profile">Profile</a>
-          <a href="#" tabindex="0" aria-label="View all blogs by ${author}">All Blogs</a>
-        `;
-
-        li.appendChild(popup);
-
-        // Show/hide popup on click
-        li.addEventListener('click', e => {
-          e.stopPropagation();
-          // Hide other popups
-          document.querySelectorAll('.author-popup').forEach(p => {
-            if(p !== popup) p.style.display = 'none';
-          });
-          popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
-        });
-      ul.appendChild(li);
-      });
-
-      // Hide popups when clicking outside
-      document.body.addEventListener('click', () => {
-        document.querySelectorAll('.author-popup').forEach(p => p.style.display = 'none');
-      });
-    }
-
-    // Newsletter subscription simulation
-    function subscribeNewsletter(e) {
-      e.preventDefault();
-      const emailInput = document.getElementById('email');
-      const msg = document.getElementById('newsletter-msg');
-      if(emailInput.value) {
-        msg.textContent = `Thanks for subscribing, ${emailInput.value}!`;
-        emailInput.value = '';
-      }
-    }
-
-    // Search form handling
-    const searchForm = document.getElementById('searchForm');
-    searchForm.addEventListener('submit', e => {
-      e.preventDefault();
-      const searchTerm = document.getElementById('searchInput').value.trim();
-      // reset category active to All
-      categoryButtons.forEach(b => b.classList.remove('active'));
-      categoryButtons[0].classList.add('active'); // all
-      renderBlogs('all', searchTerm);
-    });
-
     // Initial render
     renderBlogs();
-    renderAuthors();
   </script>
+
 </body>
 </html>
