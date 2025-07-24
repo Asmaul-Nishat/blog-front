@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Admin Dashboard - MyBlog</title>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  /* Reset & Base */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: 'Merriweather', serif;
+    background: #fff;
+    color: #111;
+    min-height: 100vh;
+    display: flex;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  button {
+    cursor: pointer;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 250px;
+    background: #f9f9f9;
+    border-right: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1rem;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  .sidebar .logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1rem;
+  }
+  .sidebar nav a {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.2rem;
+    font-weight: 500;
+    border-radius: 5px;
+    transition: background 0.2s;
+  }
+  .sidebar nav a.active,
+  .sidebar nav a:hover {
+    background: #000;
+    color: #fff;
+  }
+  .sidebar nav a span.icon {
+    margin-right: 0.8rem;
+    font-size: 1.1rem;
+    width: 20px;
+    display: inline-block;
+    text-align: center;
+  }
+
+  /* Main Content */
+  .main-content {
+    margin-left: 250px;
+    padding: 2rem;
+    flex-grow: 1;
+  }
+  h1, h2, h3 {
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+
+  /* Dashboard Overview Widgets */
+  .dashboard-widgets {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .widget {
+    background: #fff;
+    border: 1px solid #ccc;
+    flex: 1 1 150px;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+    text-align: center;
+  }
+  .widget h3 {
+    font-size: 2rem;
+    margin-bottom: 0.3rem;
+  }
+  .widget p {
+    font-weight: 600;
+    color: #555;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+  }
+  th, td {
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    text-align: left;
+    vertical-align: middle;
+  }
+  th {
+    background: #f0f0f0;
+  }
+  tbody tr:hover {
+    background: #fafafa;
+  }
+  .actions button {
+    margin-right: 0.5rem;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid #333;
+    background: none;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    color: #333;
+    transition: all 0.2s ease;
+  }
+  .actions button:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+  }
+
+  /* Tabs Content */
+  .tab-content {
+    display: none;
+  }
+  .tab-content.active {
+    display: block;
+  }
+
+  /* Form Styles for Settings */
+  form.settings-form {
+    max-width: 500px;
+  }
+  form.settings-form label {
+    display: block;
+    margin: 1rem 0 0.3rem;
+    font-weight: 600;
+  }
+  form.settings-form input[type="text"],
+  form.settings-form select,
+  form.settings-form textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  form.settings-form button {
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    background: #000;
+    color: #fff;
+    border-radius: 5px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    body {
+      flex-direction: column;
+    }
+    .sidebar {
+      width: 100%;
+      height: auto;
+      position: relative;
+      flex-direction: row;
+      overflow-x: auto;
+      padding: 0.5rem 1rem;
+    }
+    .sidebar nav {
+      display: flex;
+      flex-wrap: nowrap;
+    }
+    .sidebar nav a {
+      flex: 0 0 auto;
+      margin: 0 0.3rem;
+      padding: 0.5rem 1rem;
+    }
+    .main-content {
+      margin-left: 0;
+      padding: 1rem;
+    }
+    .dashboard-widgets {
+      flex-direction: column;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">MyBlog Admin</div>
+    <nav>
+      <a href="#" class="active" data-tab="dashboard"><span class="icon">🏠</span> Dashboard</a>
+      <a href="#" data-tab="posts"><span class="icon">📝</span> Manage Posts</a>
+      <a href="#" data-tab="users"><span class="icon">👤</span> Manage Users</a>
+      <a href="#" data-tab="categories"><span class="icon">📂</span> Categories</a>
+      <a href="#" data-tab="comments"><span class="icon">💬</span> Comments</a>
+      <a href="#" data-tab="analytics"><span class="icon">📈</span> Analytics</a>
+      <a href="#" data-tab="settings"><span class="icon">⚙️</span> Settings</a>
+      <a href="logout.php"><span class="icon">🔓</span> Logout</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <!-- Dashboard Overview -->
+    <section id="dashboard" class="tab-content active">
+      <h1>Dashboard Overview</h1>
+      <div class="dashboard-widgets">
+        <div class="widget">
+          <h3>124</h3>
+          <p>Total Posts</p>
+        </div>
+        <div class="widget">
+          <h3>32</h3>
+          <p>Total Users</p>
+        </div>
+        <div class="widget">
+          <h3>10</h3>
+          <p>Categories</p>
+        </div>
+        <div class="widget">
+          <h3>5</h3>
+          <p>Pending Posts</p>
+        </div>
+        <div class="widget">
+          <h3>7</h3>
+          <p>New Comments</p>
+        </div>
+        <div class="widget">
+          <h3>15,232</h3>
+          <p>Blog Views</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Manage Posts -->
+    <section id="posts" class="tab-content">
+      <h1>Manage Posts</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th><th>Title</th><th>Author</th><th>Status</th><th>Date</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>101</td>
+            <td>Traveling the World</td>
+            <td>asmaul</td>
+            <td>Published</td>
+            <td>2025-06-20</td>
+            <td class="actions">
+              <button onclick="alert('Viewing Post 101')">View</button>
+              <button onclick="alert('Editing Post 101')">Edit</button>
+              <button onclick="alert('Deleting Post 101')">Delete</button>
+            </td>
+          </tr>
+          <tr>
+            <td>102</td>
+            <td>Healthy Eating</td>
+            <td>john_doe</td>
+            <td>Pending</td>
+            <td>2025-06-22</td>
+            <td class="actions">
+              <button onclick="alert('Viewing Post 102')">View</button>
+              <button onclick="alert('Editing Post 102')">Edit</button>
+              <button onclick="alert('Approve Post 102?')">Approve</button>
+            </td>
+          </tr>
+          <tr>
+            <td>103</td>
+            <td>Technology Advances</td>
+            <td>admin</td>
+            <td>Draft</td>
+            <td>2025-06-23</td>
+            <td class="actions">
+              <button onclick="alert('Viewing Post 103')">View</button>
+              <button onclick="alert('Editing Post 103')">Edit</button>
+              <button onclick="alert('Deleting Post 103')">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Manage Users -->
+    <section id="users" class="tab-content">
+      <h1>Manage Users</h1>
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Username</th><th>Role</th><th>Email</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>asmaul</td>
+            <td>Admin</td>
+            <td>asmaul@example.com</td>
+            <td class="actions">
+              <button onclick="alert('Editing User asmaul')">Edit</button>
+              <button onclick="alert('Blocking User asmaul')">Block</button>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>john_doe</td>
+            <td>Blogger</td>
+            <td>john@example.com</td>
+            <td class="actions">
+              <button onclick="alert('Editing User john_doe')">Edit</button>
+              <button onclick="alert('Blocking User john_doe')">Block</button>
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>jane_reader</td>
+            <td>Reader</td>
+            <td>jane@example.com</td>
+            <td class="actions">
+              <button onclick="alert('Editing User jane_reader')">Edit</button>
+              <button onclick="alert('Blocking User jane_reader')">Block</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Manage Categories -->
+    <section id="categories" class="tab-content">
+      <h1>Manage Categories</h1>
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Category Name</th><th># Posts</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Travel</td>
+            <td>20</td>
+            <td class="actions">
+              <button onclick="alert('Editing Category Travel')">Edit</button>
+              <button onclick="alert('Deleting Category Travel')">Delete</button>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Food</td>
+            <td>15</td>
+            <td class="actions">
+              <button onclick="alert('Editing Category Food')">Edit</button>
+              <button onclick="alert('Deleting Category Food')">Delete</button>
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Technology</td>
+            <td>25</td>
+            <td class="actions">
+              <button onclick="alert('Editing Category Technology')">Edit</button>
+              <button onclick="alert('Deleting Category Technology')">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button onclick="alert('Add Category')">+ Add Category</button>
+    </section>
+
+    <!-- Comments -->
+    <section id="comments" class="tab-content">
+      <h1>Comments Moderation</h1>
+      <p>(This section will show recent comments with options to Approve, Reject, Delete.)</p>
+    </section>
+
+    <!-- Analytics -->
+    <section id="analytics" class="tab-content">
+      <h1>Analytics</h1>
+      <p>(Analytics charts and stats go here - you can use Chart.js or Google Charts.)</p>
+    </section>
+
+    <!-- Settings -->
+    <section id="settings" class="tab-content">
+      <h1>Settings</h1>
+      <form class="settings-form" onsubmit="event.preventDefault(); alert('Settings saved!');">
+        <label for="siteTitle">Site Title</label>
+        <input type="text" id="siteTitle" value="MyBlog" />
+
+        <label for="siteDesc">Site Description</label>
+        <textarea id="siteDesc" rows="3">A professional blogging platform</textarea>
+
+        <label for="approvalMode">Post Approval Mode</label>
+        <select id="approvalMode">
+          <option value="manual">Manual Approval</option>
+          <option value="auto">Auto Publish</option>
+        </select>
+
+        <label for="contactEmail">Contact Email</label>
+        <input type="text" id="contactEmail" value="admin@myblog.com" />
+
+        <button type="submit">Save Settings</button>
+      </form>
+    </section>
+
+  </main>
+
+  <script>
+    // Tab switching logic
+    const navLinks = document.querySelectorAll('.sidebar nav a[data-tab]');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const tab = link.getAttribute('data-tab');
+
+        // Remove active class on links
+        navLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+
+        // Show the selected tab content, hide others
+        tabContents.forEach(tc => {
+          tc.id === tab ? tc.classList.add('active') : tc.classList.remove('active');
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
