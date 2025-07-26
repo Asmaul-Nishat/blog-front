@@ -54,7 +54,7 @@
     .image-side img {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* show full image content */
+      object-fit: contain;
     }
 
     .form-side {
@@ -64,7 +64,7 @@
       justify-content: center;
       align-items: center;
       padding: 3rem 2rem;
-      position: relative; /* added for close btn positioning */
+      position: relative;
     }
 
     .close-btn {
@@ -128,22 +128,11 @@
     }
 
     .form-group input:focus + label,
-    .form-group input:not(:placeholder-shown) + label,
-    .form-group select:focus + label,
-    .form-group select:not([value=""]) + label {
+    .form-group input:not(:placeholder-shown) + label {
       top: -0.6rem;
       left: 0.6rem;
       font-size: 0.75rem;
       color: var(--black);
-    }
-
-    .form-group select {
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg width='10' height='7' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23000' stroke-width='2' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 0.75rem center;
-      background-size: 10px;
-      height: 100%;;
     }
 
     .password-group {
@@ -182,15 +171,13 @@
 
     button:hover {
       background: #cb9191;
-      color:#000;
+      color: #000;
     }
 
     .footer {
       text-align: center;
       margin-top: 1.5rem;
       font-size: 0.9rem;
-      
-
     }
 
     .footer a {
@@ -199,8 +186,9 @@
       text-decoration: none;
       font-size: large;
     }
-    .footer a:hover{
-      color:#d19393;
+
+    .footer a:hover {
+      color: #d19393;
       border-color: #0c0000;
     }
 
@@ -254,24 +242,25 @@
         </form>
 
         <div class="footer">
-          Don't have any account? <a href="register.html" >  Register </a>
+          Don't have any account? <a href="register.html">Register</a>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    const form = document.getElementById("LoginForm");
-    const password = document.getElementById("password");
-    const confirmPassword = document.getElementById("confirmPassword");
-    const passError = document.getElementById("passError");
+    const form = document.getElementById("loginForm");
 
     form.addEventListener("submit", function (e) {
-      if (password.value !== confirmPassword.value) {
-        e.preventDefault();
-        passError.textContent = "Passwords do not match.";
+      e.preventDefault(); // Prevent form submission
+
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (username.toLowerCase() === "admin") {
+        window.location.href = "admin/dashboard.html";
       } else {
-        passError.textContent = "";
+        window.location.href = "index.html";
       }
     });
 
