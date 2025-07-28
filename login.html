@@ -128,7 +128,9 @@
     }
 
     .form-group input:focus + label,
-    .form-group input:not(:placeholder-shown) + label {
+    .form-group input:not(:placeholder-shown) + label,
+    .form-group select:focus + label,
+    .form-group select:not([value=""]) + label {
       top: -0.6rem;
       left: 0.6rem;
       font-size: 0.75rem;
@@ -150,18 +152,11 @@
       user-select: none;
     }
 
-    .error {
-      color: red;
-      font-size: 0.85rem;
-      margin-top: -1rem;
-    }
-
     button {
       width: 100%;
-      background-color: #cb9191;
+      background-color: var(--black);
       padding: 0.9rem;
       font-size: 1rem;
-      background: var(--black);
       color: var(--white);
       border: none;
       border-radius: var(--radius);
@@ -212,58 +207,52 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="container">
-    <!-- Left Image -->
     <div class="image-side">
       <img src="https://images.pexels.com/photos/399161/pexels-photo-399161.jpeg" alt="Login Banner" />
     </div>
 
-    <!-- Right Form -->
     <div class="form-side">
-      <div class="close-btn" onclick="window.location.href='/index.html'" title="Go back to home">&times;</div>
+      <div class="close-btn" onclick="window.location.href='index.html'" title="Go back to home">&times;</div>
 
       <div class="card">
         <h1>Login</h1>
         <form id="loginForm">
           <div class="form-group">
-            <input type="text" id="username" placeholder=" " required />
-            <label for="username">Username or Email</label>
+            <input type="text" id="usernameEmail" name="usernameEmail" placeholder=" " required />
+            <label for="usernameEmail">Username or Email</label>
           </div>
 
           <div class="form-group password-group">
-            <input type="password" id="password" placeholder=" " required />
+            <input type="password" id="password" name="password" placeholder=" " required />
             <label for="password">Password</label>
             <span class="toggle-password" onclick="togglePassword('password', this)">👁️</span>
+          </div>
+
+          <div class="form-group">
+            <select id="role" name="role" required>
+              <option value="" disabled selected>Select Role</option>
+              <option value="admin">Admin</option>
+              <option value="blogger">Blogger</option>
+              <option value="reader">Reader</option>
+            </select>
+            <label for="role">Role</label>
           </div>
 
           <button type="submit">Login</button>
         </form>
 
         <div class="footer">
-          Don't have any account? <a href="register.html">Register</a>
+          Don't have an account? <a href="register.html">Register</a>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    const form = document.getElementById("loginForm");
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault(); // Prevent form submission
-
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value.trim();
-
-      if (username.toLowerCase() === "admin") {
-        window.location.href = "admin/dashboard.html";
-      } else {
-        window.location.href = "index.html";
-      }
-    });
-
     function togglePassword(id, el) {
       const input = document.getElementById(id);
       if (input.type === "password") {
@@ -274,6 +263,22 @@
         el.textContent = "👁️";
       }
     }
+
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // prevent actual form submission
+
+      const role = document.getElementById("role").value;
+
+      if (role === "admin") {
+        window.location.href = "admin/dashboard.html";
+      } else if (role === "blogger") {
+        window.location.href = "blogger_dashboard.html";
+      } else if (role === "reader") {
+        alert("Reader access does not require dashboard. You can explore the blog directly.");
+      } else {
+        alert("Please select a valid role.");
+      }
+    });
   </script>
 
 </body>
