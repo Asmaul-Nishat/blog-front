@@ -1,48 +1,32 @@
 <?php
-// delete_post.php
-include '../config.php';
 session_start();
+require 'config.php'; // your DB connection file
 
-// Only allow logged-in admin or blogger
-if (!isset($_SESSION['user_id']) || !in_array($_SESSION['role'], ['admin', 'blogger'])) {
+// Check if user is logged in and is admin
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     http_response_code(403);
-    echo "Unauthorized access.";
-    exit();
+    die("Access denied. Admins only.");
 }
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $post_id = intval($_POST['post_id']);
+// Check if blog ID is provided and is a valid number
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    http_response_code(400);
+    die("Invalid blog ID.");
+}
 
-    // Optional: Only allow deletion of own posts unless admin
-    if ($_SESSION['role'] !== 'admin') {
-        $user_id = $_SESSION['user_id'];
-        $check_stmt = $conn->prepare("SELECT id FROM posts WHERE id = ? AND user_id = ?");
-        $check_stmt->bind_param("ii", $post_id, $user_id);
-        $check_stmt->execute();
-        $check_stmt->store_result();
+$blogId = intval($_GET['id']);
 
-        if ($check_stmt->num_rows === 0) {
-            echo "You don't have permission to delete this post.";
-            $check_stmt->close();
-            $conn->close();
-            exit();
-        }
-        $check_stmt->close();
-    }
+// Prepare and execute delete statement
+$stmt = $conn->prepare("DELETE FROM posts WHERE id = ?");
+$stmt->bind_param("i", $blogId);
 
-    // Delete post
-    $stmt = $conn->prepare("DELETE FROM posts WHERE id = ?");
-    $stmt->bind_param("i", $post_id);
-
-    if ($stmt->execute()) {
-        echo "Post deleted successfully.";
-    } else {
-        echo "Error deleting post: " . $stmt->error;
-    }
-
-    $stmt->close();
-    $conn->close();
+if ($stmt->execute()) {
+    echo "Blog post deleted successfully.";
 } else {
-    echo "Invalid request method.";
+    http_response_code(500);
+    echo "Error deleting blog post: " . $stmt->error;
 }
+
+$stmt->close();
+$conn->close();
 ?>
