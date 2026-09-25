@@ -3,8 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>Blog Home - MyBlog</title>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet" />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+
   <style>
     :root {
       --font-family: 'Merriweather', serif;
@@ -20,7 +26,10 @@
       --max-width: 1200px;
     }
 
-    /* General body styles */
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: var(--font-family);
@@ -33,13 +42,10 @@
       align-items: center;
     }
 
-    .container {
-      max-width: var(--max-width);
-      width: 90%;
-      margin: 2rem auto;
-    }
+    /* =========================
+       NAVBAR
+    ========================= */
 
-    /* Navbar */
     nav {
       display: flex;
       justify-content: space-between;
@@ -48,9 +54,9 @@
       width: 100%;
       max-width: none;
       background-color: var(--white);
-      box-shadow: var(--shadow);
       position: fixed;
       top: 0;
+      left: 0;
       z-index: 1000;
       border-bottom: 1px solid var(--gray);
     }
@@ -62,7 +68,7 @@
       user-select: none;
       font-family: 'Merriweather', serif;
       cursor: pointer;
-       text-decoration: none;
+      text-decoration: none;
     }
 
     nav .nav-links {
@@ -70,8 +76,6 @@
       gap: 2rem;
       font-size: 1rem;
       font-weight: 600;
-      
-    
     }
 
     nav .nav-links a {
@@ -86,22 +90,37 @@
       color: #cb9191;
       background-color: rgba(203, 145, 145, 0.15);
     }
-    
 
-    /* Hero Section */
+    /* =========================
+       MAIN CONTAINER
+    ========================= */
+
+    .container {
+      max-width: var(--max-width);
+      width: 90%;
+      margin: 0 auto 2rem;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
     .hero {
       width: 100%;
+      margin-top: 75px;
       margin-bottom: 2rem;
       border-radius: var(--radius);
       overflow: hidden;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       position: relative;
+      cursor: pointer;
     }
 
     .hero img {
       width: 100%;
       height: 400px;
       object-fit: cover;
+      display: block;
       filter: brightness(85%);
       transition: filter 0.3s ease;
     }
@@ -123,10 +142,13 @@
       font-size: 2rem;
       cursor: pointer;
       user-select: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
-    /* Categories */
+    /* =========================
+       CATEGORIES
+    ========================= */
+
     .categories {
       margin-bottom: 2rem;
       padding-bottom: 0.5rem;
@@ -145,7 +167,10 @@
       cursor: pointer;
       font-weight: 600;
       color: var(--black);
-      transition: background-color var(--transition), border-color var(--transition);
+      transition:
+        background-color var(--transition),
+        border-color var(--transition);
+      font-family: inherit;
     }
 
     .categories button:hover,
@@ -155,35 +180,62 @@
       color: var(--black);
     }
 
-    /* Blog Feed */
+    /* =========================
+       BLOG FEED
+    ========================= */
+
     .blog-feed {
       display: grid;
-      grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
+      grid-template-columns: repeat(
+        auto-fill,
+        minmax(280px, 1fr)
+      );
       gap: 2rem;
     }
 
-    /* Blog Card */
     .blog-card {
       background: var(--gray);
       border-radius: var(--radius);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      cursor: default;
-      transition: transform var(--transition);
+      cursor: pointer;
+      transition:
+        transform var(--transition),
+        box-shadow var(--transition);
       position: relative;
     }
 
     .blog-card:hover {
       transform: translateY(-6px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Entire card is clickable */
+
+    .blog-card-link {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .blog-card-link:visited {
+      color: inherit;
     }
 
     .blog-card img {
       width: 100%;
       height: 160px;
       object-fit: cover;
+      display: block;
+      transition: transform var(--transition);
+    }
+
+    .blog-card:hover img {
+      transform: scale(1.03);
     }
 
     .blog-content {
@@ -197,6 +249,7 @@
     .blog-title {
       font-weight: 700;
       font-size: 1.2rem;
+      margin-top: 0;
       margin-bottom: 0.5rem;
       color: var(--black);
     }
@@ -205,6 +258,7 @@
       color: var(--black);
       text-decoration: none;
     }
+
     .blog-title a:hover {
       text-decoration: underline;
     }
@@ -226,7 +280,10 @@
       gap: 0.3rem;
     }
 
-    /* Footer */
+    /* =========================
+       FOOTER
+    ========================= */
+
     footer {
       width: 100%;
       background: var(--white);
@@ -236,6 +293,7 @@
       color: var(--label-text-default);
       user-select: none;
       border-top: 1px solid var(--gray);
+      margin-top: 3rem;
     }
 
     footer a {
@@ -249,7 +307,10 @@
       text-decoration: underline;
     }
 
-    /* Responsive */
+    /* =========================
+       TABLET
+    ========================= */
+
     @media (max-width: 900px) {
       .blog-feed {
         grid-template-columns: 1fr;
@@ -258,168 +319,511 @@
       .categories {
         justify-content: center;
       }
+
+      .hero-text {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 600px) {
+      nav {
+        position: relative;
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+
+      nav .nav-links {
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        font-size: 0.85rem;
+      }
+
+      .hero {
+        margin-top: 2rem;
+      }
+
+      .hero img {
+        height: 280px;
+      }
+
+      .hero-text {
+        left: 1rem;
+        bottom: 1rem;
+        font-size: 1.1rem;
+        padding: 0.7rem 1rem;
+      }
     }
   </style>
 </head>
+
 <body>
 
-  <!-- Navbar -->
-   <nav>
+  <!-- =========================
+       NAVBAR
+  ========================= -->
+
+  <nav>
     <a href="index.html" class="logo">Blogg</a>
+
     <div class="nav-links">
       <a href="create.html">Write Blog</a>
       <a href="login.html">Login</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
-      
     </div>
   </nav>
 
+
+  <!-- =========================
+       MAIN CONTENT
+  ========================= -->
+
   <div class="container">
 
-    <!-- Hero Section -->
-    <section class="hero" tabindex="0" role="banner" aria-label="Featured blog post">
-      <img src="image/jess-bailey-cU7wLFRyWWw-unsplash.jpg" alt="Featured Blog" />
-      <div class="hero-text" tabindex="0" role="link" aria-label="Explore the Wonders of the Ocean blog post">Explore the Wonders</div>
+    <!-- HERO -->
+
+    <section
+      class="hero"
+      tabindex="0"
+      role="banner"
+      aria-label="Featured blog post"
+      onclick="openBlog(1)"
+      onkeydown="handleHeroKey(event)"
+    >
+
+      <img
+        src="image/jess-bailey-cU7wLFRyWWw-unsplash.jpg"
+        alt="Featured Blog"
+      />
+
+      <div
+        class="hero-text"
+        tabindex="0"
+        role="link"
+        aria-label="Explore the Wonders of the Ocean blog post"
+      >
+        Explore the Wonders
+      </div>
+
     </section>
 
-    <!-- Categories -->
-    <section class="categories" aria-label="Blog categories">
-      <button class="active" type="button" data-category="all">All</button>
-      <button type="button" data-category="Travel">Travel</button>
-      <button type="button" data-category="Food">Food</button>
-      <button type="button" data-category="Technology">Technology</button>
-      <button type="button" data-category="Health">Health</button>
-      <button type="button" data-category="Education">Education</button>
-    </section>
-    <br>
 
-    <!-- Blog Feed -->
-    <section class="blog-feed" aria-label="Latest blog posts" id="blogFeed">
-      <!-- Blog cards added dynamically in JS -->
+    <!-- =========================
+         CATEGORIES
+    ========================= -->
+
+    <section
+      class="categories"
+      aria-label="Blog categories"
+    >
+
+      <button
+        class="active"
+        type="button"
+        data-category="all"
+      >
+        All
+      </button>
+
+      <button
+        type="button"
+        data-category="Travel"
+      >
+        Travel
+      </button>
+
+      <button
+        type="button"
+        data-category="Food"
+      >
+        Food
+      </button>
+
+      <button
+        type="button"
+        data-category="Technology"
+      >
+        Technology
+      </button>
+
+      <button
+        type="button"
+        data-category="Health"
+      >
+        Health
+      </button>
+
+      <button
+        type="button"
+        data-category="Education"
+      >
+        Education
+      </button>
+
     </section>
+
+
+    <!-- BLOG FEED -->
+
+    <section
+      class="blog-feed"
+      aria-label="Latest blog posts"
+      id="blogFeed"
+    >
+    </section>
+
   </div>
 
+
+  <!-- =========================
+       FOOTER
+  ========================= -->
+
   <footer>
+
     <p>
-      &copy; 2025 MyBlog. All rights reserved. &nbsp;|&nbsp;
-      <a href="#">Privacy Policy</a>
+      &copy; 2025 MyBlog. All rights reserved.
+      &nbsp;|&nbsp;
+
+      <a href="#">
+        Privacy Policy
+      </a>
     </p>
+
   </footer>
 
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================= -->
+
   <script>
-    // Sample blog data
+
     const blogs = [
+
       {
         id: 1,
         title: "10 Best Beaches to Visit This Summer",
-        excerpt: "Discover pristine sands, turquoise waters, and amazing experiences at these stunning beaches worldwide.",
+        excerpt:
+          "Discover pristine sands, turquoise waters, and amazing experiences at these stunning beaches worldwide.",
         author: "Jane Doe",
         category: "Travel",
         uploadTime: "2025-06-20 10:30",
         likes: 245,
         comments: 20,
-        img: "image/karsten-winegeart-Quh5YoaAzfI-unsplash.jpg",
+        img:
+          "image/karsten-winegeart-Quh5YoaAzfI-unsplash.jpg"
       },
+
       {
         id: 2,
         title: "Healthy and Quick Dinner Recipes",
-        excerpt: "Easy-to-make meals packed with nutrients that you can prepare in under 30 minutes.",
+        excerpt:
+          "Easy-to-make meals packed with nutrients that you can prepare in under 30 minutes.",
         author: "John Smith",
         category: "Food",
         uploadTime: "2025-06-21 17:15",
         likes: 179,
         comments: 15,
-        img: "image/freestocks-OfaDD5o8hpk-unsplash.jpg",
+        img:
+          "image/freestocks-OfaDD5o8hpk-unsplash.jpg"
       },
+
       {
         id: 3,
         title: "Latest Trends in Technology 2025",
-        excerpt: "Stay ahead with insights on AI, IoT, and futuristic gadgets changing the world.",
+        excerpt:
+          "Stay ahead with insights on AI, IoT, and futuristic gadgets changing the world.",
         author: "Alice Johnson",
         category: "Technology",
         uploadTime: "2025-06-22 08:45",
         likes: 310,
         comments: 32,
-        img: "image/sincerely-media-zw8t5aMmJQQ-unsplash.jpg",
+        img:
+          "image/sincerely-media-zw8t5aMmJQQ-unsplash.jpg"
       },
+
       {
         id: 4,
         title: "Meditation: A Path to Inner Peace",
-        excerpt: "Explore techniques and benefits of mindfulness to enhance your mental health.",
+        excerpt:
+          "Explore techniques and benefits of mindfulness to enhance your mental health.",
         author: "Michael Lee",
         category: "Health",
         uploadTime: "2025-06-23 13:00",
         likes: 142,
         comments: 12,
-        img: "image/andrijana-bozic-IsJ_hbsQiE8-unsplash.jpg",
+        img:
+          "image/andrijana-bozic-IsJ_hbsQiE8-unsplash.jpg"
       },
+
       {
         id: 5,
         title: "Education in the Digital Age",
-        excerpt: "How technology is reshaping classrooms and learning worldwide.",
+        excerpt:
+          "How technology is reshaping classrooms and learning worldwide.",
         author: "Jane Doe",
         category: "Education",
         uploadTime: "2025-06-24 09:30",
         likes: 199,
         comments: 18,
-        img: "image/josue-valencia-pOwKTIgjKjU-unsplash.jpg",
-      },
-    ];
-
-    const categoryButtons = document.querySelectorAll('.categories button');
-
-    function renderBlogs(filter = 'all', searchTerm = '') {
-      const container = document.getElementById('blogFeed');
-      container.innerHTML = '';
-
-      let filteredBlogs = blogs.filter(blog => {
-        const matchesCategory = filter === 'all' || blog.category === filter;
-        const matchesSearch = blog.title.toLowerCase().includes(searchTerm.toLowerCase()) || blog.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
-        return matchesCategory && matchesSearch;
-      });
-
-      if(filteredBlogs.length === 0){
-        container.innerHTML = `<p>No blogs found.</p>`;
-        return;
+        img:
+          "image/josue-valencia-pOwKTIgjKjU-unsplash.jpg"
       }
 
-      filteredBlogs.forEach(blog => {
-        const blogCard = document.createElement('article');
-        blogCard.className = 'blog-card';
-        blogCard.tabIndex = 0;
-        blogCard.setAttribute('role', 'article');
-        blogCard.setAttribute('aria-label', `${blog.title} by ${blog.author}`);
+    ];
 
-        blogCard.innerHTML = `
-          <img src="${blog.img}" alt="Image for ${blog.title}" />
-          <div class="blog-content">
-            <h2 class="blog-title">
-              <a href="blog.html?id=${blog.id}" aria-label="Read full blog post: ${blog.title}">${blog.title}</a>
-            </h2>
-            <p class="blog-excerpt">${blog.excerpt}</p>
-            <div class="blog-meta">
-              <span class="author" tabindex="0" aria-haspopup="true" aria-expanded="false" aria-label="Author: ${blog.author}">${blog.author}</span>
-              <span class="upload-time">${new Date(blog.uploadTime).toLocaleString()}</span>
-            </div>
-          </div>
-        `;
 
-        container.appendChild(blogCard);
-      });
+    /* =========================
+       OPEN BLOG
+    ========================= */
+
+    function openBlog(blogId) {
+
+      window.location.href =
+        `blog.html?id=${blogId}`;
+
     }
 
-    categoryButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        categoryButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const cat = btn.getAttribute('data-category');
-        renderBlogs(cat);
+
+    /* =========================
+       HERO KEYBOARD SUPPORT
+    ========================= */
+
+    function handleHeroKey(event) {
+
+      if (
+        event.key === "Enter" ||
+        event.key === " "
+      ) {
+
+        event.preventDefault();
+
+        openBlog(1);
+
+      }
+
+    }
+
+
+    /* =========================
+       CATEGORY BUTTONS
+    ========================= */
+
+    const categoryButtons =
+      document.querySelectorAll(
+        ".categories button"
+      );
+
+
+    /* =========================
+       RENDER BLOGS
+    ========================= */
+
+    function renderBlogs(
+      filter = "all",
+      searchTerm = ""
+    ) {
+
+      const container =
+        document.getElementById("blogFeed");
+
+      container.innerHTML = "";
+
+
+      const filteredBlogs =
+        blogs.filter(blog => {
+
+          const matchesCategory =
+            filter === "all" ||
+            blog.category === filter;
+
+
+          const search =
+            searchTerm.toLowerCase();
+
+
+          const matchesSearch =
+            blog.title
+              .toLowerCase()
+              .includes(search) ||
+
+            blog.excerpt
+              .toLowerCase()
+              .includes(search);
+
+
+          return (
+            matchesCategory &&
+            matchesSearch
+          );
+
+        });
+
+
+      /* No blogs */
+
+      if (filteredBlogs.length === 0) {
+
+        container.innerHTML =
+          `<p>No blogs found.</p>`;
+
+        return;
+
+      }
+
+
+      /* Create blog cards */
+
+      filteredBlogs.forEach(blog => {
+
+        const blogCard =
+          document.createElement("article");
+
+
+        blogCard.className =
+          "blog-card";
+
+        blogCard.tabIndex = 0;
+
+        blogCard.setAttribute(
+          "role",
+          "article"
+        );
+
+        blogCard.setAttribute(
+          "aria-label",
+          `${blog.title} by ${blog.author}`
+        );
+
+
+        /*
+         * Entire blog card is clickable.
+         *
+         * Clicking:
+         * - Image
+         * - Title
+         * - Description
+         * - Author
+         * - Date
+         *
+         * will open:
+         *
+         * blog.html?id=1
+         * blog.html?id=2
+         * etc.
+         */
+
+        blogCard.innerHTML = `
+
+          <a
+            href="blog.html?id=${blog.id}"
+            class="blog-card-link"
+            aria-label="Read full blog post: ${blog.title}"
+          >
+
+            <img
+              src="${blog.img}"
+              alt="Image for ${blog.title}"
+            />
+
+            <div class="blog-content">
+
+              <h2 class="blog-title">
+                ${blog.title}
+              </h2>
+
+              <p class="blog-excerpt">
+                ${blog.excerpt}
+              </p>
+
+              <div class="blog-meta">
+
+                <span class="author">
+                  ${blog.author}
+                </span>
+
+                <span class="upload-time">
+                  ${new Date(
+                    blog.uploadTime
+                  ).toLocaleString()}
+                </span>
+
+              </div>
+
+            </div>
+
+          </a>
+
+        `;
+
+
+        container.appendChild(
+          blogCard
+        );
+
       });
+
+    }
+
+
+    /* =========================
+       CATEGORY FILTER
+    ========================= */
+
+    categoryButtons.forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          /* Remove active */
+
+          categoryButtons.forEach(btn => {
+
+            btn.classList.remove(
+              "active"
+            );
+
+          });
+
+
+          /* Add active */
+
+          button.classList.add(
+            "active"
+          );
+
+
+          /* Get category */
+
+          const category =
+            button.getAttribute(
+              "data-category"
+            );
+
+
+          /* Render */
+
+          renderBlogs(category);
+
+        }
+      );
+
     });
 
-    // Initial render
+
+    /* =========================
+       INITIAL LOAD
+    ========================= */
+
     renderBlogs();
+
   </script>
 
 </body>

@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Blog - MyBlog</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --font-family: 'Merriweather', serif;
+      --black: #000000;
+      --white: #f0f0f0;
+      --gray: #dddddd;
+      --input-border: #999999;
+      --button-hover-bg: #cb9191;
+      --label-text-default: #666666;
+      --error-text: red;
+      --radius: 12px;
+      --transition: 0.3s ease;
+      --max-width: 1200px;
+    }
+
+    /* General body styles */
+
+    body {
+      margin: 0;
+      font-family: var(--font-family);
+      color: var(--black);
+      background-color: var(--white);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      width: 90%;
+      margin: 2rem auto;
+    }
+
+    /* Navbar */
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 2rem;
+      width: 100%;
+      max-width: none;
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid var(--gray);
+      box-sizing: border-box;
+    }
+
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #cb9191;
+      user-select: none;
+      font-family: 'Merriweather', serif;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    nav .nav-links {
+      display: flex;
+      gap: 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    nav .nav-links a {
+      text-decoration: none;
+      color: var(--black);
+      transition: color 0.3s ease;
+      padding: 0.3rem 0.5rem;
+      border-radius: var(--radius);
+    }
+
+    nav .nav-links a:hover {
+      color: #cb9191;
+      background-color: rgba(203, 145, 145, 0.15);
+    }
+
+    /* Blog Page */
+
+    .blog-page {
+      margin-top: 100px;
+      margin-bottom: 3rem;
+    }
+
+    .blog-article {
+      background-color: var(--gray);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    /* Blog Header */
+
+    .blog-header {
+      padding: 2rem 2rem 1rem;
+    }
+
+    .blog-category {
+      display: inline-block;
+      background-color: #cb9191;
+      padding: 0.4rem 0.9rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .blog-title {
+      font-size: 2.5rem;
+      line-height: 1.3;
+      margin: 0 0 1rem;
+      color: var(--black);
+    }
+
+    .blog-meta {
+      font-size: 0.85rem;
+      color: var(--label-text-default);
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* Blog Image */
+
+    .blog-image {
+      width: 100%;
+      max-height: 500px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Blog Content */
+
+    .blog-body {
+      padding: 2rem;
+      background-color: var(--white);
+      font-size: 1rem;
+    }
+
+    .blog-body p {
+      margin: 0 0 1.5rem;
+    }
+
+    .blog-body h2 {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .blog-body h3 {
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+    }
+
+    .blog-body ul,
+    .blog-body ol {
+      margin-bottom: 1.5rem;
+    }
+
+    .blog-body li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* ==================================================
+       Actions
+    ================================================== */
+
+    .blog-actions {
+      padding: 1.5rem 2rem;
+      background-color: var(--gray);
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .blog-actions a,
+    .blog-actions button {
+      text-decoration: none;
+      padding: 0.6rem 1rem;
+      border-radius: var(--radius);
+      background-color: #cb9191;
+      color: var(--black);
+      font-family: var(--font-family);
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .blog-actions a:hover,
+    .blog-actions button:hover {
+      background-color: #b37070;
+      color: #000;
+    }
+
+    /* Like Button */
+
+    .like-button.liked {
+      background-color: #b37070;
+    }
+
+    .like-icon {
+      font-size: 1rem;
+    }
+
+    /* ==================================================
+       Comments
+    ================================================== */
+
+    .comments-section {
+      display: none;
+      padding: 2rem;
+      background-color: var(--white);
+      border-top: 1px solid var(--gray);
+    }
+
+    .comments-section.show {
+      display: block;
+    }
+
+    .comments-title {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    .comment-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+    }
+
+    .comment-form input,
+    .comment-form textarea {
+      width: 100%;
+      padding: 0.7rem 0.8rem;
+      border: 1px solid var(--input-border);
+      border-radius: var(--radius);
+      font-family: var(--font-family);
+      font-size: 0.9rem;
+      background-color: #ffffff;
+      color: var(--black);
+      outline: none;
+    }
+
+    .comment-form textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .comment-form input:focus,
+    .comment-form textarea:focus {
+      border-color: #cb9191;
+    }
+
+    .comment-submit {
+      align-self: flex-start;
+      padding: 0.6rem 1rem;
+      border-radius: var(--radius);
+      background-color: #cb9191;
+      color: var(--black);
+      font-family: var(--font-family);
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .comment-submit:hover {
+      background-color: #b37070;
+      color: #000;
+    }
+
+    /* Comment List */
+
+    .comments-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .comment-item {
+      background-color: var(--gray);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+
+    .comment-author {
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .comment-text {
+      color: var(--label-text-default);
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .comment-date {
+      margin-top: 0.5rem;
+      color: var(--label-text-default);
+      font-size: 0.75rem;
+    }
+
+    .no-comments {
+      color: var(--label-text-default);
+      font-size: 0.9rem;
+    }
+
+    /* Share Message */
+
+    .share-message {
+      display: none;
+      width: 100%;
+      color: var(--label-text-default);
+      font-size: 0.85rem;
+      margin-top: 0.2rem;
+    }
+
+    .share-message.show {
+      display: block;
+    }
+
+    /* Blog Not Found */
+
+    .not-found {
+      margin-top: 100px;
+      background-color: var(--gray);
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .not-found h1 {
+      margin-bottom: 1rem;
+    }
+
+    /* Footer */
+
+    footer {
+      width: 100%;
+      background: var(--white);
+      padding: 2rem 0;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--label-text-default);
+      user-select: none;
+      border-top: 1px solid var(--gray);
+      margin-top: auto;
+    }
+
+    footer a {
+      color: var(--black);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer a:hover {
+      color: var(--button-hover-bg);
+      text-decoration: underline;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 900px) {
+
+      nav {
+        padding: 0.8rem 1rem;
+      }
+
+      nav .nav-links {
+        gap: 0.5rem;
+        font-size: 0.8rem;
+      }
+
+      .blog-title {
+        font-size: 1.8rem;
+      }
+
+      .blog-header,
+      .blog-body,
+      .blog-actions {
+        padding: 1.3rem;
+      }
+
+      .comments-section {
+        padding: 1.3rem;
+      }
+
+      .blog-image {
+        max-height: 350px;
+      }
+    }
+
+    @media (max-width: 600px) {
+
+      nav {
+        position: relative;
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+
+      nav .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .blog-page {
+        margin-top: 2rem;
+      }
+
+      .blog-title {
+        font-size: 1.5rem;
+      }
+
+      .blog-body {
+        font-size: 0.95rem;
+      }
+
+      .blog-actions {
+        gap: 0.5rem;
+      }
+
+      .blog-actions a,
+      .blog-actions button {
+        font-size: 0.8rem;
+        padding: 0.55rem 0.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ==================================================
+       Navbar
+  ================================================== -->
+
+  <nav>
+
+    <a href="index.html" class="logo">
+      Blogg
+    </a>
+
+    <div class="nav-links">
+
+      <a href="create.html">
+        Write Blog
+      </a>
+
+      <a href="login.html">
+        Login
+      </a>
+
+      <a href="about.html">
+        About
+      </a>
+
+      <a href="contact.html">
+        Contact
+      </a>
+
+    </div>
+
+  </nav>
+
+
+  <!-- ==================================================
+       Blog Container
+  ================================================== -->
+
+  <main class="container blog-page">
+
+    <article
+      class="blog-article"
+      id="blogArticle"
+    >
+
+      <!-- Blog will be loaded here -->
+
+    </article>
+
+  </main>
+
+
+  <!-- ==================================================
+       Footer
+  ================================================== -->
+
+  <footer>
+
+    <p>
+      &copy; 2025 MyBlog. All rights reserved.
+      &nbsp;|&nbsp;
+
+      <a href="#">
+        Privacy Policy
+      </a>
+    </p>
+
+  </footer>
+
+
+  <script>
+
+    /*
+    |--------------------------------------------------------------------------
+    | Blog Data
+    |--------------------------------------------------------------------------
+    */
+
+    const blogs = [
+
+      {
+        id: 1,
+
+        title: "10 Best Beaches to Visit This Summer",
+
+        excerpt:
+          "Discover pristine sands, turquoise waters, and amazing experiences at these stunning beaches worldwide.",
+
+        author: "Jane Doe",
+
+        category: "Travel",
+
+        uploadTime: "2025-06-20 10:30",
+
+        likes: 245,
+
+        comments: 20,
+
+        img:
+          "image/karsten-winegeart-Quh5YoaAzfI-unsplash.jpg",
+
+        content: `
+
+          <p>
+            Summer is the perfect time to explore beautiful beaches
+            around the world. From peaceful hidden beaches to popular
+            tropical destinations, there are countless places to enjoy
+            the sun, sea, and sand.
+          </p>
+
+          <p>
+            Whether you are looking for a relaxing vacation, an
+            adventurous trip, or simply a place to enjoy nature, these
+            beaches offer unforgettable experiences.
+          </p>
+
+          <h2>1. Tropical Paradise</h2>
+
+          <p>
+            Clear blue water, soft sand, and beautiful sunsets make
+            tropical beaches one of the most popular choices for summer
+            travelers.
+          </p>
+
+          <h2>2. Hidden Beaches</h2>
+
+          <p>
+            If you prefer a quieter experience, hidden beaches can
+            provide a peaceful environment away from large crowds.
+          </p>
+
+          <p>
+            Before traveling, always check the weather, local conditions,
+            and travel requirements for your destination.
+          </p>
+
+        `
+      },
+
+
+      {
+        id: 2,
+
+        title: "Healthy and Quick Dinner Recipes",
+
+        excerpt:
+          "Easy-to-make meals packed with nutrients that you can prepare in under 30 minutes.",
+
+        author: "John Smith",
+
+        category: "Food",
+
+        uploadTime: "2025-06-21 17:15",
+
+        likes: 179,
+
+        comments: 15,
+
+        img:
+          "image/freestocks-OfaDD5o8hpk-unsplash.jpg",
+
+        content: `
+
+          <p>
+            Preparing a healthy dinner does not have to take hours.
+            With a few simple ingredients and some planning, you can
+            prepare nutritious and delicious meals in less than
+            30 minutes.
+          </p>
+
+          <h2>Why Choose Quick Healthy Meals?</h2>
+
+          <p>
+            Busy schedules often make it difficult to spend a lot of
+            time in the kitchen. Quick meals can help you maintain a
+            balanced diet without spending your entire evening cooking.
+          </p>
+
+          <h2>Grilled Chicken and Vegetables</h2>
+
+          <p>
+            Grilled chicken with fresh vegetables is a simple
+            combination that provides protein, vitamins, and minerals.
+          </p>
+
+          <h2>Simple Pasta Bowl</h2>
+
+          <p>
+            Whole-grain pasta combined with vegetables, herbs, and a
+            light sauce can make a satisfying dinner.
+          </p>
+
+          <p>
+            The key is to use fresh ingredients and keep your meals
+            balanced.
+          </p>
+
+        `
+      },
+
+
+      {
+        id: 3,
+
+        title: "Latest Trends in Technology 2025",
+
+        excerpt:
+          "Stay ahead with insights on AI, IoT, and futuristic gadgets changing the world.",
+
+        author: "Alice Johnson",
+
+        category: "Technology",
+
+        uploadTime: "2025-06-22 08:45",
+
+        likes: 310,
+
+        comments: 32,
+
+        img:
+          "image/sincerely-media-zw8t5aMmJQQ-unsplash.jpg",
+
+        content: `
+
+          <p>
+            Technology continues to change the way people work,
+            communicate, learn, and solve problems. New developments
+            in artificial intelligence, cloud computing, and connected
+            devices are creating new opportunities.
+          </p>
+
+          <h2>Artificial Intelligence</h2>
+
+          <p>
+            Artificial intelligence is becoming increasingly useful in
+            areas such as software development, education, healthcare,
+            business analytics, and automation.
+          </p>
+
+          <h2>Internet of Things</h2>
+
+          <p>
+            Internet of Things devices allow physical objects to collect
+            and exchange information through networks. Smart homes and
+            connected industrial systems are examples of this technology.
+          </p>
+
+          <h2>The Future of Technology</h2>
+
+          <p>
+            As technology continues to develop, digital skills and
+            responsible use of technology will become increasingly
+            important.
+          </p>
+
+        `
+      },
+
+
+      {
+        id: 4,
+
+        title: "Meditation: A Path to Inner Peace",
+
+        excerpt:
+          "Explore techniques and benefits of mindfulness to enhance your mental health.",
+
+        author: "Michael Lee",
+
+        category: "Health",
+
+        uploadTime: "2025-06-23 13:00",
+
+        likes: 142,
+
+        comments: 12,
+
+        img:
+          "image/andrijana-bozic-IsJ_hbsQiE8-unsplash.jpg",
+
+        content: `
+
+          <p>
+            Meditation is a practice that encourages people to focus
+            their attention and become more aware of the present moment.
+          </p>
+
+          <h2>Getting Started</h2>
+
+          <p>
+            Beginners can start with a few minutes of quiet breathing
+            each day. Find a comfortable position and focus your
+            attention on your breathing.
+          </p>
+
+          <h2>Building a Routine</h2>
+
+          <p>
+            Consistency is often more important than the length of each
+            session. Creating a regular routine can make meditation
+            easier to maintain.
+          </p>
+
+        `
+      },
+
+
+      {
+        id: 5,
+
+        title: "Education in the Digital Age",
+
+        excerpt:
+          "How technology is reshaping classrooms and learning worldwide.",
+
+        author: "Jane Doe",
+
+        category: "Education",
+
+        uploadTime: "2025-06-24 09:30",
+
+        likes: 199,
+
+        comments: 18,
+
+        img:
+          "image/josue-valencia-pOwKTIgjKjU-unsplash.jpg",
+
+        content: `
+
+          <p>
+            Digital technology has changed how students access
+            information and communicate with teachers and classmates.
+          </p>
+
+          <h2>Online Learning</h2>
+
+          <p>
+            Online learning platforms allow students to access
+            educational resources from different locations and often
+            at flexible times.
+          </p>
+
+          <h2>Digital Resources</h2>
+
+          <p>
+            Videos, interactive exercises, digital books, and online
+            communities can supplement traditional classroom learning.
+          </p>
+
+          <h2>The Role of Teachers</h2>
+
+          <p>
+            Technology does not remove the importance of teachers.
+            Instead, it can provide teachers with additional tools for
+            explaining concepts, communicating with students, and
+            organizing learning materials.
+          </p>
+
+        `
+      }
+
+    ];
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Get Blog ID
+    |--------------------------------------------------------------------------
+    */
+
+    const urlParams =
+      new URLSearchParams(
+        window.location.search
+      );
+
+    const blogId =
+      Number(
+        urlParams.get("id")
+      );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Find Blog
+    |--------------------------------------------------------------------------
+    */
+
+    const blog =
+      blogs.find(
+        post => post.id === blogId
+      );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Blog Article
+    |--------------------------------------------------------------------------
+    */
+
+    const blogArticle =
+      document.getElementById(
+        "blogArticle"
+      );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Blog Not Found
+    |--------------------------------------------------------------------------
+    */
+
+    if (!blog) {
+
+      blogArticle.className =
+        "not-found";
+
+      blogArticle.innerHTML = `
+
+        <h1>
+          Blog Not Found
+        </h1>
+
+        <p>
+          The blog post you are looking for
+          does not exist.
+        </p>
+
+        <div class="blog-actions">
+
+          <a href="index.html">
+            ← Back to Blogs
+          </a>
+
+        </div>
+
+      `;
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Blog Found
+    |--------------------------------------------------------------------------
+    */
+
+    else {
+
+      /*
+      |--------------------------------------------------------------------------
+      | Local Storage Keys
+      |--------------------------------------------------------------------------
+      */
+
+      const likeKey =
+        `blog_liked_${blog.id}`;
+
+      const commentsKey =
+        `blog_comments_${blog.id}`;
+
+
+      /*
+      |--------------------------------------------------------------------------
+      | Get Saved Comments
+      |--------------------------------------------------------------------------
+      */
+
+      function getSavedComments() {
+
+        const saved =
+          localStorage.getItem(
+            commentsKey
+          );
+
+        if (!saved) {
+          return [];
+        }
+
+        try {
+
+          return JSON.parse(saved);
+
+        } catch (error) {
+
+          return [];
+
+        }
+
+      }
+
+
+      /*
+      |--------------------------------------------------------------------------
+      | Check Like
+      |--------------------------------------------------------------------------
+      */
+
+      const isLiked =
+        localStorage.getItem(
+          likeKey
+        ) === "true";
+
+
+      /*
+      |--------------------------------------------------------------------------
+      | Saved Comments
+      |--------------------------------------------------------------------------
+      */
+
+      const savedComments =
+        getSavedComments();
+
+
+      /*
+      |--------------------------------------------------------------------------
+      | Total Comment Count
+      |--------------------------------------------------------------------------
+      */
+
+      const totalComments =
+        blog.comments +
+        savedComments.length;
+
+
+      /*
+      |--------------------------------------------------------------------------
+      | Render Blog
+      |--------------------------------------------------------------------------
+      */
+
+      blogArticle.innerHTML = `
+
+        <!-- Blog Header -->
+
+        <div class="blog-header">
+
+          <span class="blog-category">
+            ${blog.category}
+          </span>
+
+          <h1 class="blog-title">
+            ${blog.title}
+          </h1>
+
+          <div class="blog-meta">
+
+            <span>
+              Author: ${blog.author}
+            </span>
+
+            <span>
+              ${new Date(
+                blog.uploadTime
+              ).toLocaleString()}
+            </span>
+
+            <span>
+              <span id="headerLikeCount">
+                ${blog.likes + (isLiked ? 1 : 0)}
+              </span>
+              Likes
+            </span>
+
+            <span>
+              <span id="headerCommentCount">
+                ${totalComments}
+              </span>
+              Comments
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- Blog Image -->
+
+        <img
+          class="blog-image"
+          src="${blog.img}"
+          alt="${blog.title}"
+        />
+
+
+        <!-- Blog Body -->
+
+        <div class="blog-body">
+
+          ${blog.content}
+
+        </div>
+
+
+        <!-- ==================================================
+             ACTION BUTTONS
+        ================================================== -->
+
+        <div class="blog-actions">
+
+          <!-- Back -->
+
+          <a href="index.html">
+            ← Back to Blogs
+          </a>
+
+
+          <!-- Like -->
+
+          <button
+            type="button"
+            id="likeButton"
+            class="like-button ${isLiked ? "liked" : ""}"
+            onclick="toggleLike()"
+          >
+
+            <span
+              class="like-icon"
+              id="likeIcon"
+            >
+              ${isLiked ? "♥" : "♡"}
+            </span>
+
+            Like
+
+            <span id="likeCount">
+              ${blog.likes + (isLiked ? 1 : 0)}
+            </span>
+
+          </button>
+
+
+          <!-- Comment -->
+
+          <button
+            type="button"
+            id="commentButton"
+            onclick="toggleComments()"
+          >
+
+            💬 Comment
+
+            <span id="commentCount">
+              ${totalComments}
+            </span>
+
+          </button>
+
+
+          <!-- Share -->
+
+          <button
+            type="button"
+            onclick="shareBlog()"
+          >
+
+            ↗ Share
+
+          </button>
+
+
+          <!-- Share Message -->
+
+          <span
+            class="share-message"
+            id="shareMessage"
+          >
+          </span>
+
+        </div>
+
+
+        <!-- ==================================================
+             COMMENTS SECTION
+        ================================================== -->
+
+        <section
+          class="comments-section"
+          id="commentsSection"
+        >
+
+          <h2 class="comments-title">
+            Comments
+          </h2>
+
+
+          <!-- Comment Form -->
+
+          <form
+            class="comment-form"
+            id="commentForm"
+          >
+
+            <input
+              type="text"
+              id="commentName"
+              placeholder="Your name"
+              maxlength="50"
+              required
+            />
+
+
+            <textarea
+              id="commentText"
+              placeholder="Write your comment..."
+              maxlength="500"
+              required
+            ></textarea>
+
+
+            <button
+              type="submit"
+              class="comment-submit"
+            >
+              Post Comment
+            </button>
+
+          </form>
+
+
+          <!-- Comments List -->
+
+          <div
+            class="comments-list"
+            id="commentsList"
+          >
+          </div>
+
+        </section>
+
+      `;
+
+
+      /*
+      |--------------------------------------------------------------------------
+      | Toggle Like
+      |--------------------------------------------------------------------------
+      */
+
+      window.toggleLike =
+        function () {
+
+          const likeButton =
+            document.getElementById(
+              "likeButton"
+            );
+
+          const likeIcon =
+            document.getElementById(
+              "likeIcon"
+            );
+
+          const likeCount =
+            document.getElementById(
+              "likeCount"
+            );
+
+          const headerLikeCount =
+            document.getElementById(
+              "headerLikeCount"
+            );
+
+
+          const currentlyLiked =
+            localStorage.getItem(
+              likeKey
+            ) === "true";
+
+
+          if (currentlyLiked) {
+
+            /*
+             * Unlike
+             */
+
+            localStorage.removeItem(
+              likeKey
+            );
+
+            likeButton.classList.remove(
+              "liked"
+            );
+
+            likeIcon.textContent =
+              "♡";
+
+            likeCount.textContent =
+              blog.likes;
+
+            headerLikeCount.textContent =
+              blog.likes;
+
+          } else {
+
+            /*
+             * Like
+             */
+
+            localStorage.setItem(
+              likeKey,
+              "true"
+            );
+
+            likeButton.classList.add(
+              "liked"
+            );
+
+            likeIcon.textContent =
+              "♥";
+
+            likeCount.textContent =
+              blog.likes + 1;
+
+            headerLikeCount.textContent =
+              blog.likes + 1;
+
+          }
+
+        };
+
+
+      /*
+      |--------------------------------------------------------------------------
+      | Toggle Comments
+      |--------------------------------------------------------------------------
+      */
+
+      window.toggleComments =
+        function () {
+
+          const commentsSection =
+            document.getElementById(
+              "commentsSection"
+            );
+
+          const commentButton =
+            document.getElementById(
+              "commentButton"
+            );
+
+
+          commentsSection.classList.toggle(
+            "show"
+          );
+
+
+          if (
+            commentsSection.classList.contains(
+              "show"
+            )
+          ) {
+
+            commentButton.style.backgroundColor =
+              "#b37070";
+
+            setTimeout(() => {
+
+              commentsSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+              });
+
+            }, 100);
+
+          } else {
+
+            commentButton.style.backgroundColor =
+              "#cb9191";
+
+          }
+
+        };
+
+
+      /*
+      |--------------------------------------------------------------------------
+      | Share Blog
+      |--------------------------------------------------------------------------
+      */
+
+      window.shareBlog =
+        async function () {
+
+          const currentUrl =
+            window.location.href;
+
+          const shareMessage =
+            document.getElementById(
+              "shareMessage"
+            );
+
+
+          /*
+           * Mobile / supported browsers
+           */
+
+          if (
+            navigator.share
+          ) {
+
+            try {
+
+              await navigator.share({
+
+                title:
+                  blog.title,
+
+                text:
+                  blog.excerpt,
+
+                url:
+                  currentUrl
+
+              });
+
+              return;
+
+            } catch (error) {
+
+              /*
+               * User cancelled share.
+               */
+
+              if (
+                error.name ===
+                "AbortError"
+              ) {
+
+                return;
+
+              }
+
+            }
+
+          }
+
+
+          /*
+           * Desktop fallback
+           */
+
+          try {
+
+            await navigator.clipboard.writeText(
+              currentUrl
+            );
+
+            shareMessage.textContent =
+              "Blog link copied!";
+
+            shareMessage.classList.add(
+              "show"
+            );
+
+
+            setTimeout(() => {
+
+              shareMessage.classList.remove(
+                "show"
+              );
+
+            }, 3000);
+
+          } catch (error) {
+
+            window.prompt(
+              "Copy this blog link:",
+              currentUrl
+            );
+
+          }
+
+        };
+
+
+      /*
+      |--------------------------------------------------------------------------
+      | Escape HTML
+      |--------------------------------------------------------------------------
+      */
+
+      function escapeHtml(text) {
+
+        const div =
+          document.createElement(
+            "div"
+          );
+
+        div.textContent =
+          text;
+
+        return div.innerHTML;
+
+      }
+
+
+      /*
+      |--------------------------------------------------------------------------
+      | Render Comments
+      |--------------------------------------------------------------------------
+      */
+
+      function renderComments() {
+
+        const commentsList =
+          document.getElementById(
+            "commentsList"
+          );
+
+        const comments =
+          getSavedComments();
+
+
+        if (
+          comments.length === 0
+        ) {
+
+          commentsList.innerHTML = `
+
+            <p class="no-comments">
+              No new comments yet.
+              Be the first to comment.
+            </p>
+
+          `;
+
+          return;
+
+        }
+
+
+        commentsList.innerHTML =
+          "";
+
+
+        comments.forEach(
+          comment => {
+
+            const commentItem =
+              document.createElement(
+                "div"
+              );
+
+            commentItem.className =
+              "comment-item";
+
+
+            commentItem.innerHTML = `
+
+              <div class="comment-author">
+                ${escapeHtml(
+                  comment.name
+                )}
+              </div>
+
+              <div class="comment-text">
+                ${escapeHtml(
+                  comment.text
+                )}
+              </div>
+
+              <div class="comment-date">
+                ${comment.date}
+              </div>
+
+            `;
+
+
+            commentsList.appendChild(
+              commentItem
+            );
+
+          }
+        );
+
+      }
+
+
+      /*
+      |--------------------------------------------------------------------------
+      | Comment Form
+      |--------------------------------------------------------------------------
+      */
+
+      document
+        .getElementById(
+          "commentForm"
+        )
+        .addEventListener(
+          "submit",
+          function (event) {
+
+            event.preventDefault();
+
+
+            const nameInput =
+              document.getElementById(
+                "commentName"
+              );
+
+            const textInput =
+              document.getElementById(
+                "commentText"
+              );
+
+
+            const name =
+              nameInput.value.trim();
+
+            const text =
+              textInput.value.trim();
+
+
+            if (
+              !name ||
+              !text
+            ) {
+
+              return;
+
+            }
+
+
+            /*
+             * Get existing comments
+             */
+
+            const comments =
+              getSavedComments();
+
+
+            /*
+             * Add new comment
+             */
+
+            comments.push({
+
+              name:
+                name,
+
+              text:
+                text,
+
+              date:
+                new Date()
+                  .toLocaleString()
+
+            });
+
+
+            /*
+             * Save comments
+             */
+
+            localStorage.setItem(
+              commentsKey,
+              JSON.stringify(
+                comments
+              )
+            );
+
+
+            /*
+             * Clear form
+             */
+
+            nameInput.value =
+              "";
+
+            textInput.value =
+              "";
+
+
+            /*
+             * Render comments
+             */
+
+            renderComments();
+
+
+            /*
+             * Update count
+             */
+
+            const newCount =
+              blog.comments +
+              comments.length;
+
+
+            document.getElementById(
+              "commentCount"
+            ).textContent =
+              newCount;
+
+
+            document.getElementById(
+              "headerCommentCount"
+            ).textContent =
+              newCount;
+
+          }
+        );
+
+
+      /*
+      |--------------------------------------------------------------------------
+      | Initial Comments
+      |--------------------------------------------------------------------------
+      */
+
+      renderComments();
+
+    }
+
+  </script>
+
+</body>
+</html>
