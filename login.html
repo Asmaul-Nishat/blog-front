@@ -220,7 +220,9 @@
 
       <div class="card">
         <h1>Login</h1>
-        <form id="loginForm">
+
+        <form id="loginForm" method="POST" action="php/login.php">
+
           <div class="form-group">
             <input type="text" id="usernameEmail" name="usernameEmail" placeholder=" " required />
             <label for="usernameEmail">Username or Email</label>
@@ -263,22 +265,6 @@
         el.textContent = "👁️";
       }
     }
-
-    document.getElementById("loginForm").addEventListener("submit", function(event) {
-      event.preventDefault(); // prevent actual form submission
-
-      const role = document.getElementById("role").value;
-
-      if (role === "admin") {
-        window.location.href = "admin/dashboard.html";
-      } else if (role === "blogger") {
-        window.location.href = "blogger_dashboard.html";
-      } else if (role === "reader") {
-        alert("Reader access does not require dashboard. You can explore the blog directly.");
-      } else {
-        alert("Please select a valid role.");
-      }
-    });
   </script>
 
 </body>
