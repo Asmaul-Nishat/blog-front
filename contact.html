@@ -1,10 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Contact Us - Blog Posting Website</title>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet" />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+
   <style>
     :root {
       --black: #000000;
@@ -13,7 +19,7 @@
       --input-border: #999999;
       --radius: 10px;
       --shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-      --primary-color: #cb9191; /* Muted pinkish-red */
+      --primary-color: #cb9191;
       --label-text: #666666;
       --error-text: red;
       --text-color: #222222;
@@ -30,7 +36,7 @@
       background-color: var(--white);
       color: var(--text-color);
       min-height: 100vh;
-      padding-top: 70px; /* space for fixed navbar */
+      padding-top: 70px;
     }
 
     /* Navbar styles */
@@ -164,6 +170,23 @@
       outline: none;
     }
 
+    /* Success notification */
+    .success-message {
+      display: none;
+      margin-bottom: 1.5rem;
+      padding: 1rem 1.2rem;
+      background-color: var(--gray);
+      border: 1px solid var(--primary-color);
+      border-radius: var(--radius);
+      color: var(--text-color);
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
     .footer {
       margin-top: 3rem;
       text-align: center;
@@ -207,40 +230,211 @@
       }
     }
   </style>
+
 </head>
+
 <body>
 
   <nav>
     <a href="index.html" class="logo">Blogg</a>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="create.html">Write Blog</a>
-      <a href="login.html">Login</a>
-    </div>
+
+
+<div class="nav-links">
+  <a href="index.html">Home</a>
+  <a href="create.html">Write Blog</a>
+  <a href="login.html">Login</a>
+</div>
+
+
   </nav>
 
   <div class="container">
-    <h1>Contact Us</h1>
-    <hr />
 
-    <form action="#" method="POST" novalidate>
-      <label for="name">Full Name</label>
-      <input type="text" id="name" name="name" placeholder="Your full name" required />
 
-      <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" placeholder="you@example.com" required />
+<h1>Contact Us</h1>
 
-      <label for="subject">Subject</label>
-      <input type="text" id="subject" name="subject" placeholder="Subject of your message" required />
+<hr />
 
-      <label for="message">Message</label>
-      <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
 
-      <button type="submit">Send Message</button>
-    </form>
+<!-- Success Notification -->
 
-    <div class="footer">© 2025 Our Blog Posting Website. All rights reserved.</div>
+<div
+  id="successMessage"
+  class="success-message"
+  role="alert"
+>
+  Message sent successfully!
+</div>
+
+
+<!-- Contact Form -->
+
+<form
+  id="contactForm"
+  novalidate
+>
+
+  <label for="name">
+    Full Name
+  </label>
+
+  <input
+    type="text"
+    id="name"
+    name="name"
+    placeholder="Your full name"
+    required
+  />
+
+
+  <label for="email">
+    Email Address
+  </label>
+
+  <input
+    type="email"
+    id="email"
+    name="email"
+    placeholder="you@example.com"
+    required
+  />
+
+
+  <label for="subject">
+    Subject
+  </label>
+
+  <input
+    type="text"
+    id="subject"
+    name="subject"
+    placeholder="Subject of your message"
+    required
+  />
+
+
+  <label for="message">
+    Message
+  </label>
+
+  <textarea
+    id="message"
+    name="message"
+    placeholder="Write your message here..."
+    required
+  ></textarea>
+
+
+  <button type="submit">
+    Send Message
+  </button>
+
+</form>
+
+
+<div class="footer">
+  © 2025 Our Blog Posting Website. All rights reserved.
+</div>
+
   </div>
+
+  <script>
+
+    const contactForm =
+      document.getElementById("contactForm");
+
+    const successMessage =
+      document.getElementById("successMessage");
+
+
+    contactForm.addEventListener(
+      "submit",
+      function (event) {
+
+        /*
+         * Prevent the browser from
+         * submitting/reloading the page.
+         */
+        event.preventDefault();
+
+
+        /*
+         * Get form values.
+         */
+        const name =
+          document.getElementById("name").value.trim();
+
+        const email =
+          document.getElementById("email").value.trim();
+
+        const subject =
+          document.getElementById("subject").value.trim();
+
+        const message =
+          document.getElementById("message").value.trim();
+
+
+        /*
+         * Basic validation.
+         */
+        if (
+          !name ||
+          !email ||
+          !subject ||
+          !message
+        ) {
+
+          alert("Please fill in all fields.");
+
+          return;
+        }
+
+
+        /*
+         * Basic email validation.
+         */
+        const emailPattern =
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+        if (!emailPattern.test(email)) {
+
+          alert("Please enter a valid email address.");
+
+          return;
+        }
+
+
+        /*
+         * Show success notification.
+         */
+        successMessage.textContent =
+          "Message sent successfully!";
+
+        successMessage.classList.add("show");
+
+
+        /*
+         * Clear the form.
+         */
+        contactForm.reset();
+
+
+        /*
+         * Keep the user on the same page.
+         *
+         * Hide notification after 4 seconds.
+         */
+        setTimeout(function () {
+
+          successMessage.classList.remove("show");
+
+        }, 4000);
+
+      }
+    );
+
+  </script>
 
 </body>
 </html>

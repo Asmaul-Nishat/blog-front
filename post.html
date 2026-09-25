@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Preview Post - MyBlog</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+
+    body {
+      font-family: 'Merriweather', serif;
+      margin: 0;
+      background: #fff;
+      color: #333;
+    }
+
+
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 2rem;
+      border-radius: 12px;
+      background: #f9ecec;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+
+    .preview-title {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+
+    .blog-card {
+      background: #f0d9da;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+    }
+
+
+    .blog-card img {
+      width: 100%;
+      max-height: 450px;
+      object-fit: cover;
+      display: block;
+    }
+
+
+    .blog-content {
+      padding: 1.5rem;
+    }
+
+
+    .blog-title {
+      font-weight: bold;
+      font-size: 2rem;
+      margin-bottom: 0.7rem;
+    }
+
+
+    .blog-category {
+      display: inline-block;
+      background: #cb9191;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+
+    .blog-excerpt {
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 1.5rem;
+    }
+
+
+    .blog-full-content {
+      font-size: 1rem;
+      color: #444;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+
+    .blog-meta {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #ccc;
+
+      font-size: 0.85rem;
+      color: #444;
+
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+
+    .blog-meta div {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-weight: bold;
+    }
+
+
+    .upload-time {
+      margin-left: auto;
+      font-style: italic;
+    }
+
+
+    /*
+     * Action buttons
+     */
+
+    .post-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+
+    .post-actions button,
+    .post-actions a {
+
+      padding: 0.75rem 1.5rem;
+
+      font-size: 1rem;
+
+      border: none;
+
+      border-radius: 25px;
+
+      background: #c8d9eb;
+
+      color: #333;
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+      transition: background 0.3s;
+
+      font-family: 'Merriweather', serif;
+
+      text-decoration: none;
+
+      display: inline-block;
+
+    }
+
+
+    .post-actions button:hover,
+    .post-actions a:hover {
+      background: #f0d9da;
+    }
+
+
+    /*
+     * Success notification
+     */
+
+    .success-message {
+
+      display: none;
+
+      margin-top: 1.5rem;
+
+      padding: 1rem;
+
+      background: #f0d9da;
+
+      border: 1px solid #cb9191;
+
+      border-radius: 10px;
+
+      text-align: center;
+
+      font-weight: bold;
+
+    }
+
+
+    .success-message.show {
+      display: block;
+    }
+
+
+    /*
+     * No preview
+     */
+
+    .no-preview {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+
+    .no-preview a {
+      display: inline-block;
+
+      margin-top: 1rem;
+
+      padding: 0.75rem 1.5rem;
+
+      background: #c8d9eb;
+
+      color: #333;
+
+      text-decoration: none;
+
+      border-radius: 25px;
+
+      font-weight: bold;
+
+    }
+
+
+    .no-preview a:hover {
+      background: #f0d9da;
+    }
+
+
+    @media (max-width: 600px) {
+
+      .container {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+
+
+      .blog-title {
+        font-size: 1.5rem;
+      }
+
+
+      .post-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+
+      .post-actions button,
+      .post-actions a {
+        text-align: center;
+        width: 100%;
+      }
+
+
+      .upload-time {
+        margin-left: 0;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="container">
+
+<h1>
+  Preview Your Blog
+</h1>
+
+
+<div id="previewContainer">
+  <!-- Blog preview will appear here -->
+</div>
+
+  </div>
+
+  <script>
+
+    /*
+     * Get blog data saved by create.html.
+     */
+
+    const savedBlog =
+      localStorage.getItem("blogPreview");
+
+
+    const previewContainer =
+      document.getElementById(
+        "previewContainer"
+      );
+
+
+    /*
+     * If there is no blog data.
+     */
+
+    if (!savedBlog) {
+
+      previewContainer.innerHTML = `
+
+        <div class="no-preview">
+
+          <h2>
+            No Blog Preview Available
+          </h2>
+
+          <p>
+            Please create a blog first.
+          </p>
+
+          <a href="create.html">
+            Create Blog
+          </a>
+
+        </div>
+
+      `;
+
+    } else {
+
+      let blog;
+
+
+      try {
+
+        blog =
+          JSON.parse(savedBlog);
+
+      } catch (error) {
+
+        previewContainer.innerHTML = `
+
+          <div class="no-preview">
+
+            <h2>
+              Invalid Blog Data
+            </h2>
+
+            <a href="create.html">
+              Create Blog
+            </a>
+
+          </div>
+
+        `;
+
+        throw error;
+
+      }
+
+
+      /*
+       * Format upload date.
+       */
+
+      const uploadTime =
+        new Date(
+          blog.createdAt
+        ).toLocaleString();
+
+
+      /*
+       * Display the blog.
+       */
+
+      previewContainer.innerHTML = `
+
+        <div class="blog-card">
+
+          <img
+            src="${blog.image}"
+            alt="${escapeHtml(blog.title)}"
+            id="previewImage"
+          />
+
+
+          <div class="blog-content">
+
+            <span class="blog-category">
+              ${escapeHtml(blog.category)}
+            </span>
+
+
+            <h2 class="blog-title">
+              ${escapeHtml(blog.title)}
+            </h2>
+
+
+            <p class="blog-excerpt">
+              ${escapeHtml(blog.excerpt)}
+            </p>
+
+
+            <div class="blog-full-content">
+              ${escapeHtml(blog.content)}
+            </div>
+
+
+            <div class="blog-meta">
+
+              <div>
+                👤
+                <span>
+                  ${escapeHtml(blog.author)}
+                </span>
+              </div>
+
+
+              <div>
+                ❤️
+                <span>
+                  0
+                </span>
+              </div>
+
+
+              <div>
+                💬
+                <span>
+                  0
+                </span>
+              </div>
+
+
+              <div>
+                🔗
+                <span>
+                  Share
+                </span>
+              </div>
+
+
+              <div class="upload-time">
+                ${uploadTime}
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ACTION BUTTONS -->
+
+        <div class="post-actions">
+
+          <!-- Back Home -->
+
+          <a href="index.html">
+            ← Back to Home
+          </a>
+
+
+          <!-- Post Blog -->
+
+          <button
+            type="button"
+            onclick="postBlog()"
+          >
+            Post Blog
+          </button>
+
+        </div>
+
+
+        <!-- SUCCESS MESSAGE -->
+
+        <div
+          id="successMessage"
+          class="success-message"
+        >
+          Blog posted successfully!
+        </div>
+
+      `;
+
+    }
+
+
+    /*
+     * Escape HTML to prevent
+     * user-entered content from
+     * being interpreted as HTML.
+     */
+
+    function escapeHtml(text) {
+
+      const div =
+        document.createElement("div");
+
+      div.textContent =
+        text;
+
+      return div.innerHTML;
+
+    }
+
+
+    /*
+     * Post Blog
+     *
+     * Save the blog permanently
+     * in localStorage.
+     */
+
+    function postBlog() {
+
+      const savedBlog =
+        localStorage.getItem(
+          "blogPreview"
+        );
+
+
+      if (!savedBlog) {
+
+        alert(
+          "No blog available to post."
+        );
+
+        return;
+
+      }
+
+
+      let blog;
+
+
+      try {
+
+        blog =
+          JSON.parse(savedBlog);
+
+      } catch (error) {
+
+        alert(
+          "Unable to post this blog."
+        );
+
+        return;
+
+      }
+
+
+      /*
+       * Get existing user-created blogs.
+       */
+
+      let postedBlogs = [];
+
+
+      const existingBlogs =
+        localStorage.getItem(
+          "postedBlogs"
+        );
+
+
+      if (existingBlogs) {
+
+        try {
+
+          postedBlogs =
+            JSON.parse(existingBlogs);
+
+        } catch (error) {
+
+          postedBlogs = [];
+
+        }
+
+      }
+
+
+      /*
+       * Create unique ID.
+       */
+
+      blog.id =
+        Date.now();
+
+
+      /*
+       * Add default values.
+       */
+
+      blog.likes = 0;
+
+      blog.comments = 0;
+
+
+      /*
+       * Add new blog.
+       */
+
+      postedBlogs.push(blog);
+
+
+      /*
+       * Save all posted blogs.
+       */
+
+      localStorage.setItem(
+        "postedBlogs",
+        JSON.stringify(postedBlogs)
+      );
+
+
+      /*
+       * Remove temporary preview.
+       */
+
+      localStorage.removeItem(
+        "blogPreview"
+      );
+
+
+      /*
+       * Show success notification.
+       */
+
+      const successMessage =
+        document.getElementById(
+          "successMessage"
+        );
+
+
+      successMessage.classList.add(
+        "show"
+      );
+
+
+      /*
+       * Go back to Home after
+       * showing notification.
+       */
+
+      setTimeout(
+        function () {
+
+          window.location.href =
+            "index.html";
+
+        },
+        1500
+      );
+
+    }
+
+  </script>
+
+</body>
+</html>
